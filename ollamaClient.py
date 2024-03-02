@@ -25,6 +25,11 @@ class OllamaClient():
         sMessage = dict({'role' : 'system', 'content' : system_message})
         self.messages.append(sMessage)
     
+    def edit_system_message(self, system_message:str) -> None:
+        for m in self.messages:
+            if m['role'] == 'system':
+                m['content'] = system_message
+    
     def chat(self, prompt:str, model: str, temp: float, system:str = "default") -> str:
         options = dict({'temperature' : temp})
         message = {}

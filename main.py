@@ -4,8 +4,27 @@ from packet import *
 
 st.set_page_config(page_title='Local Packet Whisperer', page_icon='🗣️')
 
+DEFAULT_SYSTEM_MESSAGE = """
+        You are a helper assistant specialized in analysing packet captures used to troubleshooting & technical analysis. Use the information present in packet_capture_info to answer all the questions truthfully. If the user asks about a specific application layer protocol, use the following hints to inspect the packet_capture_info to answer the question.
+        
+        If the user asks for general analysis, extract information about every layer (such as ethernet, IP, transport layer), source and destination IPs, port numbers and other possible insights. Provide your response in a structured bullet response, easy to understand for a network engineer.
+
+        Format your response in markdown text with line breaks. You are encouraged to use emojis to make your response more presentable and fun.
+
+        hints :
+        http means tcp.port = 80
+        https means tcp.port = 443
+        snmp means udp.port = 161 or udp.port = 162
+        ntp means udp.port = 123
+        ftp means tcp.port = 21
+        ssh means tcp.port = 22
+"""
+
 if 'messages' not in st.session_state:
     st.session_state.messages = []
+
+if 'system_message' not in st.session_state:
+    st.session_state['system_message'] = DEFAULT_SYSTEM_MESSAGE
 
 def resetChat():
     st.session_state.messages.clear()
@@ -14,10 +33,15 @@ def resetChat():
 options = getModelList()
 selected_model = ""
 
+def save_sm() -> None:
+    modifySM(st.session_state['system_message'])
 
 with st.sidebar:
     #st.markdown('## Enter OLLAMA endpoint:')
     #st.text_input("Ollama endpoint", placeholder="Eg localhost", label_visibility='hidden')
+    st.markdown('# Settings ⚙️')
+    with st.expander(label='**Set System Message** *(optional)*', expanded=False):
+        st.session_state['system_message'] = st.text_area(label='Override system message', value=st.session_state['system_message'], label_visibility="hidden", height=500, on_change=save_sm)
     st.markdown('## Select a local model to use:')
     selected_model = st.selectbox('Models', placeholder="Choose an Option", options=options)
     if selected_model != "":
