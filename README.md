@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 1) Run streamlit app & point to `http://localhost:8501`
 ```
-stream run main.py
+streamlit run main.py
 ```
 
 2) LPW will automatically fetch the local models from Ollama local repo and populate the dropdown. Select a model to start your test. You can play with more than 1 model to compare the results 😎
