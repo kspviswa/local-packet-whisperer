@@ -18,6 +18,7 @@ DEFAULT_SYSTEM_MESSAGE = """
         ntp means udp.port = 123
         ftp means tcp.port = 21
         ssh means tcp.port = 22
+        ngap means sctp.port = 38412
 """
 
 if 'messages' not in st.session_state:
@@ -53,22 +54,34 @@ with st.sidebar:
     https = st.checkbox("HTTPS") #443
     ftp = st.checkbox("FTP") #21
     ssh = st.checkbox("SSH") #22
+    ngap = st.checkbox("NGAP") #38412
 
-def getFilters() -> str:
+def getFiltersAndDecodeInfo():
     filters = []
+    decodes = {}
     resp = ""
     if http:
         filters.append("tcp.port == 80")
+        decodes['tcp.port == 80'] = 'http'
     if snmp:
         filters.append("udp.port == 161 || udp.port == 162")
+        decodes['udp.port == 161'] = 'snmp'
+        decodes['udp.port == 162'] = 'snmp'
     if https:
         filters.append("tcp.port == 443")
+        decodes['tcp.port == 443'] = 'https'
     if ntp:
-        filters.append("udp.port == 123")    
+        filters.append("udp.port == 123")
+        decodes['udp.port == 123'] = 'ntp'    
     if ftp:
         filters.append("tcp.port == 21")
+        decodes['tcp.port == 21'] = 'ftp'
     if ssh:
         filters.append("tcp.port == 22")
+        decodes['tcp.port == 22'] = 'ssh'
+    if ngap:
+        filters.append("sctp.port == 38412")
+        decodes['stcp.port == 38412'] = 'ngap'
     
     l = len(filters)
     i=0
@@ -77,7 +90,7 @@ def getFilters() -> str:
         i += 1
         if i != l:
             resp += " || "
-    return resp
+    return resp, decodes
 
 st.markdown('# :rainbow[Local Packet Whisperer 🗣️🗣️🗣️]')
 
@@ -89,7 +102,8 @@ st.markdown('#### Step 2️⃣ 👉🏻 Chat with packets')
 if len(flist) < 1:
     st.markdown('#### Waiting for packets 🧘🏻🧘🏻🧘🏻🧘🏻')
 else:
-    initLLM(pcap_data=getPcapData(input_file=flist[0].name, filter=getFilters()))
+    filters, decodes = getFiltersAndDecodeInfo()
+    initLLM(pcap_data=getPcapData(input_file=flist[0].name, filter=filters, decode_info=decodes))
     with st.chat_message(name='assistant'):
         st.markdown('Chat with me..')
     for message in st.session_state.messages:

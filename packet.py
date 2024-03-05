@@ -1,14 +1,19 @@
 import pyshark as ps
 
+import re
 
-def getPcapData(input_file:str = "", filter=""):
-    #print(f'incoming pcap name {input_file}')
-    #print(f'Filters => {filter}')
-    cap = ps.FileCapture(input_file=input_file, display_filter=filter)
-    #print(cap)
-    out = ""
-    for c in cap:
-        #print(c)
-        out += c.__str__()
-    #print(out)
-    return out
+def remove_ansi_escape_sequences(input_string):
+    # Define a regular expression pattern to match ANSI escape sequences
+    ansi_escape_pattern = r'\x1B(?:[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]'
+    
+    # Use re.sub() to replace ANSI escape sequences with an empty string
+    cleaned_string = re.sub(ansi_escape_pattern, '', input_string)
+    
+    return cleaned_string
+
+def getPcapData(input_file:str = "", filter="", decode_info={}):
+    cap : ps.FileCapture = ps.FileCapture(input_file=input_file, display_filter=filter)
+    with open('out.txt', 'w') as f:
+        for pkt in cap:
+            print(pkt, file=f)
+    return remove_ansi_escape_sequences(open('out.txt', 'r').read())
