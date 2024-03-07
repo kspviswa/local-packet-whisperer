@@ -160,12 +160,4 @@ cython_debug/
 #.idea/
 
 # Custom
-donottrack/*
-donotrack/free5gc.pcap
-donotrack/http.pcap
-donotrack/trace.pcap
-donotrack/chat_with_ntp.mov
-donotrack/Screen Recording 2024-02-24 at 4.28.36 PM.mov
-donotrack/Screen Recording 2024-02-24 at 4.33.24 PM.mov
-donotrack/select_models.mov
 .DS_Store
