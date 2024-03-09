@@ -2,6 +2,7 @@ import streamlit as st
 from lpw_prompt import *
 from lpw_packet import *
 import os
+import time
 
 st.set_page_config(page_title='Local Packet Whisperer', page_icon='🗣️')
 
@@ -28,6 +29,9 @@ if 'messages' not in st.session_state:
 if 'system_message' not in st.session_state:
     st.session_state['system_message'] = DEFAULT_SYSTEM_MESSAGE
 
+if 'streaming_enabled' not in st.session_state:
+    st.session_state['streaming_enabled'] = False
+
 def resetChat():
     st.session_state.messages.clear()
     clearHistory()
@@ -42,8 +46,10 @@ with st.sidebar:
     #st.markdown('## Enter OLLAMA endpoint:')
     #st.text_input("Ollama endpoint", placeholder="Eg localhost", label_visibility='hidden')
     st.markdown('# Settings ⚙️')
+    st.markdown('## Syster Message:')
     with st.expander(label='**Set System Message** *(optional)*', expanded=False):
         st.session_state['system_message'] = st.text_area(label='Override system message', value=st.session_state['system_message'], label_visibility="hidden", height=500, on_change=save_sm)
+    st.session_state['streaming_enabled'] = st.toggle(label='Enable Streaming')
     st.markdown('## Select a local model to use:')
     selected_model = st.selectbox('Models', placeholder="Choose an Option", options=options)
     if selected_model != "":
@@ -120,5 +126,16 @@ else:
             with st.spinner('Processing....'):
                 full_response = chatWithModel(prompt=prompt, model=selected_model)
                 st.session_state.messages.append({'role' : 'assistant', 'content' : full_response})
-                st.markdown(full_response)
+                if st.session_state['streaming_enabled']:
+                    message_placeholder = st.empty()
+                    streaming_response = ""
+                    # Simulate stream of response with milliseconds delay
+                    for chunk in full_response.split():
+                        streaming_response += chunk + " "
+                        time.sleep(0.05)
+                        # Add a blinking cursor to simulate typing
+                        message_placeholder.markdown(streaming_response + "▌", unsafe_allow_html=True)
+                    message_placeholder.markdown(full_response, unsafe_allow_html=True)
+                else:
+                    st.markdown(full_response)
         st.button('Reset Chat 🗑️', use_container_width=True, on_click=resetChat)

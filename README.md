@@ -1,3 +1,5 @@
+![](gifs/lpw_logo.png)
+
 # Local Packet Whisperer (LPW)
 
 ### A Fun project using [Ollama](https://github.com/ollama), [Streamlit](https://streamlit.io) & [PyShark](https://github.com/KimiNewt/pyshark) to chat with PCAP/PCAG NG files locally, privately!
