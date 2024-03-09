@@ -1,7 +1,7 @@
 import streamlit as st
-from prompt import *
-from packet import *
-import pathlib
+from lpw_prompt import *
+from lpw_packet import *
+import os
 
 st.set_page_config(page_title='Local Packet Whisperer', page_icon='🗣️')
 
@@ -102,10 +102,11 @@ if packetFile == None:
     st.markdown('#### Waiting for packets 🧘🏻🧘🏻🧘🏻🧘🏻')
 else:
     with st.spinner('#### Crunching the packets... 🥣🥣🥣'):
-        with open(f'analysis/{packetFile.name}', 'wb') as f:
+        with open(f'{packetFile.name}', 'wb') as f:
             f.write(packetFile.read())
         filters, decodes = getFiltersAndDecodeInfo()
-        initLLM(pcap_data=getPcapData(input_file=f'analysis/{packetFile.name}', filter=filters, decode_info=decodes))
+        initLLM(pcap_data=getPcapData(input_file=f'{packetFile.name}', filter=filters, decode_info=decodes))
+        os.remove(f'{packetFile.name}')
     with st.chat_message(name='assistant'):
         st.markdown('Chat with me..')
     for message in st.session_state.messages:

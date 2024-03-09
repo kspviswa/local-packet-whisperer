@@ -1,5 +1,5 @@
 import pyshark as ps
-
+import os
 import re
 
 def remove_ansi_escape_sequences(input_string):
@@ -16,4 +16,6 @@ def getPcapData(input_file:str = "", filter="", decode_info={}):
     with open('out.txt', 'w') as f:
         for pkt in cap:
             print(pkt, file=f)
-    return remove_ansi_escape_sequences(open('out.txt', 'r').read())
+    out_string = open('out.txt', 'r').read()
+    os.remove('out.txt')
+    return remove_ansi_escape_sequences(out_string)

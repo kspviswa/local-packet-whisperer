@@ -1,12 +1,15 @@
 # Local Packet Whisperer (LPW)
 
-### A Fun project using [Ollama](https://github.com/ollama), [Streamlit](https://streamlit.io) & [PyShark](https://github.com/KimiNewt/pyshark) to chat with PCAP files locally, privately!
+### A Fun project using [Ollama](https://github.com/ollama), [Streamlit](https://streamlit.io) & [PyShark](https://github.com/KimiNewt/pyshark) to chat with PCAP/PCAG NG files locally, privately!
 
 ## Features & Background
 
 1) 100% local, private PCAP assistant powered by range of local LLMs at your control, powered by Ollama
 2) Purely based on promp engg without any fancy libraries & dependencies. 100% vanilla
 3) Uses streamlit for the FE and pyshark for the pcap parsing needs
+4) Available as a pip installable package. So just *pip it away!* 😎
+
+Refer [Release History](https://github.com/kspviswa/local-packet-whisperer/releases) for more details info on what each release contains.
 
 ## Requirements
 
@@ -18,37 +21,54 @@ ollama pull dolphin-mistral:latest
 ```
 3) If not running the desktop application, Start Ollama Server (refer [here](https://github.com/ollama/ollama?tab=readme-ov-file#start-ollama))
 
-4) Clone this repo and install requirements
+## Usage
+
+1) Install *LPW* using pip
+```
+pip install lpw
+```
+
+2) This will install `lpw` CLI in your machine. Now simply Start or Stop LPW as follows:
+
+```
+lpw {start or stop}
+lpw -h #for help
+```
+
+3) LPW will automatically fetch the local models from Ollama local repo and populate the dropdown. Select a model to start your test. You can play with more than 1 model to compare the results 😎
+
+![](gifs/select_models.gif)
+
+4) Now upload a PCAP/PCAPNG file.
+
+![](gifs/upload_pcap.gif)
+
+5) You can now start to chat with LPW and ask questions about the packet. **Please Note: The performance of LPW depends on the underlying model. So feel free to download as many local LLMs from Ollama and try it.** It is fun to see different response 🤩🤩🤩.
+
+![](gifs/packet_chat.gif)
+*(This is a long gif. You will find LLM response at the end of the gif)*
+
+6) By default *PyShark* parse the pcap till transport layer. If you want, you can help the LLM to parse application layer by selecting protocol filter in the analysis *(just like how we would do in wireshark)* .
+
+![](gifs/chat_with_ntp.gif)
+
+## Local Development
+
+1) Clone this repo and install requirements
 ```
 git clone https://github.com/kspviswa/local-packet-whisperer.git
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
-
-## Usage
-
-1) Run streamlit app & point to `http://localhost:8501`
+2) Run streamlit app & point to `http://localhost:8501`
 ```
-streamlit run main.py
+streamlit run bin/lpw_main.py
 ```
-
-2) LPW will automatically fetch the local models from Ollama local repo and populate the dropdown. Select a model to start your test. You can play with more than 1 model to compare the results 😎
-
-![](gifs/select_models.gif)
-
-3) Now upload a PCAP/PCAPNG file.
-
-![](gifs/upload_pcap.gif)
-
-4) You can now start to chat with LPW and ask questions about the packet. **Please Note: The performance of LPW depends on the underlying model. So feel free to download as many local LLMs from Ollama and try it.** It is fun to see different response 🤩🤩🤩.
-
-![](gifs/packet_chat.gif)
-*(This is a long gif. You will find LLM response at the end of the gif)*
-
-5) By default *PyShark* parse the pcap till transport layer. If you want, you can help the LLM to parse application layer by selecting protocol filter in the analysis *(just like how we would do in wireshark)* .
-
-![](gifs/chat_with_ntp.gif)
+or simply
+```
+<lpw dir>/bin/lpw {start or stop}
+```
 
 ## Contributions
 

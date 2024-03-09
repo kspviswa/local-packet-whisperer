@@ -1,5 +1,5 @@
 import streamlit as st
-from ollamaClient import OllamaClient
+from lpw_ollamaClient import OllamaClient
 from typing import List
 
 def returnSystemText(pcap_data : str) -> str:
