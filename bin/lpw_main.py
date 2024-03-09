@@ -45,6 +45,7 @@ def save_sm() -> None:
 with st.sidebar:
     #st.markdown('## Enter OLLAMA endpoint:')
     #st.text_input("Ollama endpoint", placeholder="Eg localhost", label_visibility='hidden')
+    st.image(image="https://raw.githubusercontent.com/kspviswa/local-packet-whisperer/main/gifs/lpw_logo_small.png", width=400)
     st.markdown('# Settings ⚙️')
     st.markdown('## Syster Message:')
     with st.expander(label='**Set System Message** *(optional)*', expanded=False):
@@ -99,7 +100,11 @@ def getFiltersAndDecodeInfo():
             resp += " || "
     return resp, decodes
 
-st.markdown('# :rainbow[Local Packet Whisperer 🗣️🗣️🗣️]')
+col1, col2 = st.columns([3,1])
+with col1:
+    st.markdown('# :rainbow[Local Packet Whisperer] \n # :rainbow[🗣️🗣️🗣️]')
+with col2:
+    st.image(image="https://raw.githubusercontent.com/kspviswa/local-packet-whisperer/main/gifs/lpw_logo_small.png", use_column_width=True)
 
 st.markdown('#### Step 1️⃣ 👉🏻 Build a knowledge base')
 packetFile = st.file_uploader(label='Upload either a PCAP or PCAPNG file to chat', accept_multiple_files=False, type=['pcap','pcapng'])
