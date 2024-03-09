@@ -37,7 +37,7 @@ streamlit run main.py
 
 ![](gifs/select_models.gif)
 
-3) Now upload a PCAP file. *PS: Though LPW accepts more than 1 file, currently only the first file will be used for analysis*
+3) Now upload a PCAP/PCAPNG file.
 
 ![](gifs/upload_pcap.gif)
 
