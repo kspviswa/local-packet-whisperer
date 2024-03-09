@@ -1,4 +1,4 @@
-![](gifs/lpw_logo.png)
+![](gifs/lpw_logo_small.png)
 
 # Local Packet Whisperer (LPW)
 
