@@ -122,7 +122,7 @@ else:
     with st.chat_message(name='assistant', avatar=lpw_avatar):
         st.markdown('Chat with me..')
     for message in st.session_state.messages:
-        with st.chat_message(name=message['role']):
+        with st.chat_message(name=message['role'], avatar = lpw_avatar if message['role'] == 'assistant' else None):
             st.markdown(message['content'])
     if prompt := st.chat_input('Enter your prompt'):
         st.session_state.messages.append({'role' : 'user', 'content' : prompt})
