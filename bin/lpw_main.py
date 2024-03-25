@@ -6,6 +6,8 @@ import time
 
 st.set_page_config(page_title='Local Packet Whisperer', page_icon='🗣️')
 
+lpw_avatar = "https://raw.githubusercontent.com/kspviswa/local-packet-whisperer/main/gifs/lpw_logo_small.png"
+
 DEFAULT_SYSTEM_MESSAGE = """
         You are a helper assistant specialized in analysing packet captures used to troubleshooting & technical analysis. Use the information present in packet_capture_info to answer all the questions truthfully. If the user asks about a specific application layer protocol, use the following hints to inspect the packet_capture_info to answer the question.
         
@@ -45,8 +47,7 @@ def save_sm() -> None:
 with st.sidebar:
     #st.markdown('## Enter OLLAMA endpoint:')
     #st.text_input("Ollama endpoint", placeholder="Eg localhost", label_visibility='hidden')
-    st.image(image="https://raw.githubusercontent.com/kspviswa/local-packet-whisperer/main/gifs/lpw_logo_small.png", width=400)
-    st.markdown('# Settings ⚙️')
+    st.markdown('# LPW Settings ⚙️', unsafe_allow_html=True)
     st.markdown('## Syster Message:')
     with st.expander(label='**Set System Message** *(optional)*', expanded=False):
         st.session_state['system_message'] = st.text_area(label='Override system message', value=st.session_state['system_message'], label_visibility="hidden", height=500, on_change=save_sm)
@@ -54,7 +55,7 @@ with st.sidebar:
     st.markdown('## Select a local model to use:')
     selected_model = st.selectbox('Models', placeholder="Choose an Option", options=options)
     if selected_model != "":
-        st.markdown(f"Selected :rainbow[{selected_model}]")
+        st.markdown(f"### :rainbow[Selected {selected_model}]")
     st.markdown('## Select protocols to filter in analysis')
     http = st.checkbox("HTTP") #80
     snmp = st.checkbox("SNMP") #161, 162
@@ -104,7 +105,7 @@ col1, col2 = st.columns([3,1])
 with col1:
     st.markdown('# :rainbow[Local Packet Whisperer] \n # :rainbow[🗣️🗣️🗣️]')
 with col2:
-    st.image(image="https://raw.githubusercontent.com/kspviswa/local-packet-whisperer/main/gifs/lpw_logo_small.png", use_column_width=True)
+    st.image(image=lpw_avatar, use_column_width=True)
 
 st.markdown('#### Step 1️⃣ 👉🏻 Build a knowledge base')
 packetFile = st.file_uploader(label='Upload either a PCAP or PCAPNG file to chat', accept_multiple_files=False, type=['pcap','pcapng'])
@@ -118,7 +119,7 @@ else:
         filters, decodes = getFiltersAndDecodeInfo()
         initLLM(pcap_data=getPcapData(input_file=f'{packetFile.name}', filter=filters, decode_info=decodes))
         os.remove(f'{packetFile.name}')
-    with st.chat_message(name='assistant'):
+    with st.chat_message(name='assistant', avatar=lpw_avatar):
         st.markdown('Chat with me..')
     for message in st.session_state.messages:
         with st.chat_message(name=message['role']):
@@ -127,7 +128,7 @@ else:
         st.session_state.messages.append({'role' : 'user', 'content' : prompt})
         with st.chat_message(name='user'):
             st.markdown(prompt)
-        with st.chat_message(name='assistant'):
+        with st.chat_message(name='assistant', avatar=lpw_avatar):
             with st.spinner('Processing....'):
                 full_response = chatWithModel(prompt=prompt, model=selected_model)
                 st.session_state.messages.append({'role' : 'assistant', 'content' : full_response})
