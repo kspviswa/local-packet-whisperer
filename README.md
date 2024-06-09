@@ -26,7 +26,7 @@ ollama pull dolphin-mistral:latest
 4) You also need to install `tshark` executable. You could either install the [Wireshark Application](https://www.wireshark.org/download.html) or simply use `brew install tshark`. 
 
     <details>
-    <summary>⚠️Warning⚠️ If you don't perform this step, you may below error</summary>
+    <summary>⚠️Warning⚠️ If you don't perform this step, you may see below error</summary>
 
     ```
     TSharkNotFoundException: TShark not found. Try adding its location to the configuration file.
