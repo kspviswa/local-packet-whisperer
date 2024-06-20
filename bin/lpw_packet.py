@@ -2,6 +2,7 @@ import pyshark as ps
 import streamlit as st
 import os
 import re
+import asyncio
 
 def remove_ansi_escape_sequences(input_string):
     # Define a regular expression pattern to match ANSI escape sequences
@@ -14,6 +15,9 @@ def remove_ansi_escape_sequences(input_string):
 
 def getPcapData(input_file:str = "", filter="", decode_info={}):
     try :
+        if os.name == 'nt':
+            eventloop = asyncio.ProactorEventLoop()
+            asyncio.set_event_loop(eventloop)        
         cap : ps.FileCapture = ps.FileCapture(input_file=input_file, display_filter=filter)
         with open('out.txt', 'w') as f:
             for pkt in cap:
