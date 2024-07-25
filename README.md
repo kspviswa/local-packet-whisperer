@@ -4,6 +4,8 @@
 
 ### A Fun project using [Ollama](https://github.com/ollama), [Streamlit](https://streamlit.io) & [PyShark](https://github.com/KimiNewt/pyshark) to chat with PCAP/PCAG NG files locally, privately!
 
+[![Downloads](https://static.pepy.tech/badge/lpw)](https://pepy.tech/project/lpw) [![Downloads](https://static.pepy.tech/badge/lpw/month)](https://pepy.tech/project/lpw)
+
 ## Features & Background
 
 1) 100% local, private PCAP assistant powered by range of local LLMs at your control, powered by Ollama
