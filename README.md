@@ -12,7 +12,7 @@
 2) Purely based on promp engg without any fancy libraries & dependencies. 100% vanilla
 3) Uses streamlit for the FE and pyshark for the pcap parsing needs
 4) Available as a pip installable package. So just *pip it away!* 😎
-5) As of **v0.2.0**, you can also connect LPW to a Ollama server running over a network.
+5) As of **v0.2.3**, you can also connect LPW to a Ollama server running over a network.
 
 ![](gifs/lpw_0_2_0_cover.png)
 
