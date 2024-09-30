@@ -1,10 +1,14 @@
-import ollama
+from ollama import Client
 from typing import List
 
 class OllamaClient():
 
-    def __init__(self):
+    def __init__(self, server="127.0.0.1"):
         self.messages = []
+        self.client = Client(host=f'http://{server}:11434')
+    
+    def setServer(self,server):
+        self.client = Client(host=f'http://{server}:11434')
     
     def clear_history(self):
         self.messages.clear()
@@ -36,7 +40,7 @@ class OllamaClient():
         message['role'] = 'user'
         message['content'] = prompt
         self.messages.append(message)
-        response = ollama.chat(model=model, messages=self.messages, options=options)
+        response = self.client.chat(model=model, messages=self.messages, options=options)
         self.messages.append(response['message'])
         return response['message']['content']
 
@@ -49,13 +53,13 @@ class OllamaClient():
         message['role'] = 'user'
         message['content'] = prompt
         self.messages.append(message)
-        stream = ollama.chat(model=model, messages=self.messages, options=options, stream=True)
+        stream = self.client.chat(model=model, messages=self.messages, options=options, stream=True)
         # the caller should call append_history
         return stream
     
     def getModelList(self) -> List[str]:
         retList = []
-        model_list = ollama.list()
+        model_list = self.client.list()
         models = model_list['models']
         for model in models:
             retList.append(model['name'])
@@ -63,17 +67,17 @@ class OllamaClient():
 
 
 if __name__ == '__main__':
-    client = OllamaClient()
+    client = OllamaClient(server='192.168.0.14')
     print(f'List of models are {client.getModelList()}')
-    while True:
-        print('You :')
-        response = client.chat_stream(model='dolphin-mistral:latest', temp=0.8, prompt=input())
-        contents = ""
-        AiMessage = {}
-        for chunk in response:
-            content = chunk['message']['content']
-            print(content, end='', flush=True)
-            contents += content
-        AiMessage['role'] = 'assistant'
-        AiMessage['content'] = contents
-        client.append_history(AiMessage)
+    #while True:
+    #    print('You :')
+    #    response = client.chat_stream(model='dolphin-mistral:latest', temp=0.8, prompt=input())
+    #    contents = ""
+    #    AiMessage = {}
+    #    for chunk in response:
+    #        content = chunk['message']['content']
+    #        print(content, end='', flush=True)
+    #        contents += content
+    #    AiMessage['role'] = 'assistant'
+    #    AiMessage['content'] = contents
+    #    client.append_history(AiMessage)

@@ -11,10 +11,12 @@ def returnSystemText(pcap_data : str) -> str:
 
 oClient = OllamaClient()
 
+def setLLMServer(server):
+    oClient.setServer(server)
+
 def initLLM(pcap_data) -> None:
     oClient.set_system_message(system_message=returnSystemText(pcap_data)) 
 
-@st.cache_resource
 def getModelList() -> List[str]:
     return oClient.getModelList()
 
