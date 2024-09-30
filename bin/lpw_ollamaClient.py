@@ -1,3 +1,5 @@
+import streamlit as st
+import ollama
 from ollama import Client
 from typing import List
 
@@ -40,29 +42,43 @@ class OllamaClient():
         message['role'] = 'user'
         message['content'] = prompt
         self.messages.append(message)
-        response = self.client.chat(model=model, messages=self.messages, options=options)
+        response = None
+        try:
+            response = self.client.chat(model=model, messages=self.messages, options=options)
+        except Exception as e:
+            st.error(f'Error Occured : {e} ', icon="🚨")
+            st.stop()
         self.messages.append(response['message'])
         return response['message']['content']
 
     def chat_stream(self, prompt:str, model: str, temp: float, system:str = "default"):
         options = dict({'temperature' : temp})
         message = {}
+        stream = None
         if system != 'default' and not self.check_system_message():
             sMessage = dict({'role' : 'system', 'content' : system})
             self.messages.append(sMessage)
         message['role'] = 'user'
         message['content'] = prompt
         self.messages.append(message)
-        stream = self.client.chat(model=model, messages=self.messages, options=options, stream=True)
+        try:
+            stream = self.client.chat(model=model, messages=self.messages, options=options, stream=True)
         # the caller should call append_history
+        except Exception as e:
+            st.error(f'Error Occured : {e} ', icon="🚨")
+            st.stop()
         return stream
     
     def getModelList(self) -> List[str]:
         retList = []
-        model_list = self.client.list()
-        models = model_list['models']
-        for model in models:
-            retList.append(model['name'])
+        try:
+            model_list = self.client.list()  
+            models = model_list['models']
+            for model in models:
+                retList.append(model['name'])
+        except Exception as e:
+            st.error(f'Error Occured : {e} ', icon="🚨")
+            st.stop()
         return retList
 
 

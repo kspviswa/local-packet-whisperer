@@ -21,14 +21,14 @@ setup(
     author="Viswa Kumar",
     author_email="kspviswaphd@gmail.com",
     license="MIT",
-    scripts=['bin/lpw', 'bin/lpw_main.py', 'bin/lpw_ollamaClient.py', 'bin/lpw_packet.py', 'bin/lpw_prompt.py'],
+    scripts=['bin/lpw', 'bin/lpw_main.py', 'bin/lpw_ollamaClient.py', 'bin/lpw_packet.py', 'bin/lpw_prompt.py', 'bin/lpw_settings.py', 'bin/lpw_home.py', 'bin/lpw_init.py'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
     ],
     install_requires = deps,
     include_package_data=True,
-    python_requires=">=3.12",
+    python_requires=">=3.11",
 )   
