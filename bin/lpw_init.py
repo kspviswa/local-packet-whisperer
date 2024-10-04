@@ -1,6 +1,4 @@
 import streamlit as st
-from lpw_prompt import *
-from lpw_packet import *
 
 DEFAULT_SYSTEM_MESSAGE = """
         You are a helper assistant specialized in analysing packet captures used to troubleshooting & technical analysis. Use the information present in packet_capture_info to answer all the questions truthfully. If the user asks about a specific application layer protocol, use the following hints to inspect the packet_capture_info to answer the question.
@@ -19,38 +17,23 @@ DEFAULT_SYSTEM_MESSAGE = """
         ngap means sctp.port = 38412
 """
 
-if 'streaming_enabled' not in st.session_state:
-    st.session_state['streaming_enabled'] = False
+default_settings = {
+    'streaming_enabled' : False,
+    'messages' : [],
+    'system_message' : DEFAULT_SYSTEM_MESSAGE,
+    'selected_model' : 'Undefined',
+    'llm_server' : "127.0.0.1",
+    'http' : False,
+    'https' : False,
+    'snmp' : False,
+    'ftp' : False,
+    'ngap' : False,
+    'ssh' : False,
+    'ntp' : False,
+    'pcap_fname' : "None 🚫"
+}
 
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
-
-if 'system_message' not in st.session_state:
-    st.session_state['system_message'] = DEFAULT_SYSTEM_MESSAGE
-
-if 'selected_model' not in st.session_state:
-    st.session_state['selected_model'] = getModelList()[0]
-
-if 'llm_server' not in st.session_state:
-    st.session_state['llm_server'] = "127.0.0.1"
-
-if 'http' not in st.session_state:
-    st.session_state['http'] = False
-
-if 'https' not in st.session_state:
-    st.session_state['https'] = False
-
-if 'ftp' not in st.session_state:
-    st.session_state['ftp'] = False
-
-if 'ntp' not in st.session_state:
-    st.session_state['ntp'] = False
-
-if 'ngap' not in st.session_state:
-    st.session_state['ngap'] = False
-
-if 'ssh' not in st.session_state:
-    st.session_state['ssh'] = False
-
-if 'snmp' not in st.session_state:
-    st.session_state['snmp'] = False
+def returnValue(key):
+    if key not in st.session_state:
+        st.session_state[key] = default_settings[key]
+    return st.session_state[key]
