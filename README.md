@@ -14,7 +14,7 @@
 4) Available as a pip installable package. So just *pip it away!* 😎
 5) As of **v0.2.3**, you can also connect LPW to a Ollama server running over a network.
 
-![](gifs/lpw_0_2_0_cover.png)
+![](gifs/lpw_latest_cover.png)
 
 Refer [Release History](https://github.com/kspviswa/local-packet-whisperer/releases) for more details info on what each release contains.
 
