@@ -84,6 +84,7 @@ with st.sidebar:
     st.metric("Selected Model ✅", returnValue('selected_model'))
     st.metric("Connected to 🔌", returnValue('llm_server'))
     getEnabledFilters()
+    st.metric("Streaming 〰️", returnValue('streaming_enabled'))
 
 col1, col2 = st.columns([3,1])
 with col1:
