@@ -9,8 +9,8 @@ class OllamaClient():
         self.messages = []
         self.client = Client(host=f'http://{server}:11434')
     
-    def setServer(self,server):
-        self.client = Client(host=f'http://{server}:11434')
+    def setServer(self,server, port):
+        self.client = Client(host=f'http://{server}:{port}')
     
     def clear_history(self):
         self.messages.clear()
@@ -69,17 +69,18 @@ class OllamaClient():
             st.stop()
         return stream
     
-    def getModelList(self) -> List[str]:
+    def getModelList(self) -> List[str] | bool:
         retList = []
+        is_Connected = False
         try:
             model_list = self.client.list()  
             models = model_list['models']
             for model in models:
                 retList.append(model['name'])
+            is_Connected = True
         except Exception as e:
-            st.error(f'Error Occured : {e} ', icon="🚨")
-            st.stop()
-        return retList
+            print(f'Error Occured : {e} ')
+        return retList, is_Connected
 
 
 if __name__ == '__main__':

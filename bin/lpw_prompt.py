@@ -14,8 +14,8 @@ def returnSystemText(pcap_data : str) -> str:
 
 oClient = OllamaClient()
 
-def setLLMServer(server):
-    oClient.setServer(server)
+def setLLMServer(server, port):
+    oClient.setServer(server, port)
 
 def initLLM(pcap_data) -> None:
     oClient.set_system_message(system_message=returnSystemText(pcap_data)) 

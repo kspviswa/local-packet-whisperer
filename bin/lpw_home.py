@@ -2,20 +2,32 @@ import streamlit as st
 from lpw_init import *
 from lpw_prompt import *
 from lpw_packet import *
-#from lpw_settings import loadDefaultSettings
 import os
 import time
 from streamlit_extras.tags import tagger_component
+from importlib.metadata import version, PackageNotFoundError
+import os
 
-#st.set_page_config(page_title='Local Packet Whisperer', page_icon='🗣️')
+def get_lpw_version():
+    try:
+        return version("lpw")
+    except PackageNotFoundError:
+        # Fallback to reading from version.txt
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        version_file = os.path.join(current_dir, "../VERSION.txt")
+        with open(version_file, "r") as f:
+            return f.read().strip()
 
 lpw_avatar = "https://raw.githubusercontent.com/kspviswa/local-packet-whisperer/main/gifs/lpw_logo_small.png"
 
-#loadDefaultSettings()
-#returnValue['selected_model'] = getModelList()[0]
-
 def loadDefaultSettings():
-    st.session_state['selected_model'] = getModelList()[0]
+    model_list, server_connected = getModelList()
+    if server_connected:
+        st.session_state['selected_model'] = model_list[0]
+    st.session_state['llm_server_connection_status'] = server_connected
+
+def renderConnection(is_connected: bool):
+    return '🟢' if is_connected else '🔴'
 
 def getFiltersAndDecodeInfo():
     filters = []
@@ -82,55 +94,63 @@ with st.sidebar:
     if returnValue('selected_model') == 'Undefined':
         loadDefaultSettings()
     st.metric("Selected Model ✅", returnValue('selected_model'))
-    st.metric("Connected to 🔌", returnValue('llm_server'))
+    st.metric("Plugged to 🔌 & connection status 🚦", f'{returnValue('llm_server')} {renderConnection(returnValue('llm_server_connection_status'))}')
     getEnabledFilters()
     st.metric("Streaming 〰️", returnValue('streaming_enabled'))
 
-col1, col2 = st.columns([3,1])
+col1, col2 = st.columns([7,3])
 with col1:
-    st.markdown('# :rainbow[Local Packet Whisperer] \n # :rainbow[🗣️🗣️🗣️]')
+    st.title('Local Packet Whisperer (LPW)')
+    st.markdown('`Your local network assistant!`')
+    st.markdown(f'`Version : {get_lpw_version()}`')
 with col2:
     st.image(image=lpw_avatar, use_column_width=True)
 
-st.markdown('#### Step 1️⃣ 👉🏻 Build a knowledge base')
-packetFile = st.file_uploader(label='Upload either a PCAP or PCAPNG file to chat', accept_multiple_files=False, type=['pcap','pcapng'])
-st.markdown('#### Step 2️⃣ 👉🏻 Chat with packets')
-if packetFile == None:
-    st.session_state['pcap_fname'] = "None 🚫"
-    resetChat()
-    st.markdown('#### Waiting for packets 🧘🏻🧘🏻🧘🏻🧘🏻')
-else:
-    st.session_state['pcap_fname'] = packetFile.name
-    st.sidebar.metric("Whispering with 🗣️", returnValue('pcap_fname'))
-    with st.spinner('#### Crunching the packets... 🥣🥣🥣'):
-        with open(f'{packetFile.name}', 'wb') as f:
-            f.write(packetFile.read())
-        filters, decodes = getFiltersAndDecodeInfo()
-        initLLM(pcap_data=getPcapData(input_file=f'{packetFile.name}', filter=filters, decode_info=decodes))
-        os.remove(f'{packetFile.name}')
-    with st.chat_message(name='assistant', avatar=lpw_avatar):
-        st.markdown('Chat with me..')
-    for message in returnValue('messages'):
-        with st.chat_message(name=message['role'], avatar = lpw_avatar if message['role'] == 'assistant' else None):
-            st.markdown(message['content'])
-    if prompt := st.chat_input('Enter your prompt'):
-        returnValue('messages').append({'role' : 'user', 'content' : prompt})
-        with st.chat_message(name='user'):
-            st.markdown(prompt)
+
+
+if not returnValue('llm_server_connection_status'):
+    st.error('LPW Cannot talk to the remote 🦙 Ollama Server 🦙', icon='🚨')
+    st.info('Please troubleshoot the **connection** or Update the **LLM Server Settings** in LPW Setting ⚙️ Page', icon='💡')
+else :
+    st.markdown('#### Step 1️⃣ 👉🏻 Build a knowledge base')
+    packetFile = st.file_uploader(label='Upload either a PCAP or PCAPNG file to chat', accept_multiple_files=False, type=['pcap','pcapng'])
+    st.markdown('#### Step 2️⃣ 👉🏻 Chat with packets')
+    if packetFile == None:
+        st.session_state['pcap_fname'] = "None 🚫"
+        resetChat()
+        st.markdown('#### Waiting for packets 🧘🏻🧘🏻🧘🏻🧘🏻')
+    else:
+        st.session_state['pcap_fname'] = packetFile.name
+        st.sidebar.metric("Whispering with 🗣️", returnValue('pcap_fname'))
+        with st.spinner('#### Crunching the packets... 🥣🥣🥣'):
+            with open(f'{packetFile.name}', 'wb') as f:
+                f.write(packetFile.read())
+            filters, decodes = getFiltersAndDecodeInfo()
+            initLLM(pcap_data=getPcapData(input_file=f'{packetFile.name}', filter=filters, decode_info=decodes))
+            os.remove(f'{packetFile.name}')
         with st.chat_message(name='assistant', avatar=lpw_avatar):
-            with st.spinner('Processing....'):
-                full_response = chatWithModel(prompt=prompt, model=returnValue('selected_model'))
-                returnValue('messages').append({'role' : 'assistant', 'content' : full_response})
-                if returnValue('streaming_enabled'):
-                    message_placeholder = st.empty()
-                    streaming_response = ""
-                    # Simulate stream of response with milliseconds delay
-                    for chunk in full_response.split():
-                        streaming_response += chunk + " "
-                        time.sleep(0.05)
-                        # Add a blinking cursor to simulate typing
-                        message_placeholder.markdown(streaming_response + "▌", unsafe_allow_html=True)
-                    message_placeholder.markdown(full_response, unsafe_allow_html=True)
-                else:
-                    st.markdown(full_response)
-        st.button('Reset Chat 🗑️', use_container_width=True, on_click=resetChat)
+            st.markdown('Chat with me..')
+        for message in returnValue('messages'):
+            with st.chat_message(name=message['role'], avatar = lpw_avatar if message['role'] == 'assistant' else None):
+                st.markdown(message['content'])
+        if prompt := st.chat_input('Enter your prompt'):
+            returnValue('messages').append({'role' : 'user', 'content' : prompt})
+            with st.chat_message(name='user'):
+                st.markdown(prompt)
+            with st.chat_message(name='assistant', avatar=lpw_avatar):
+                with st.spinner('Processing....'):
+                    full_response = chatWithModel(prompt=prompt, model=returnValue('selected_model'))
+                    returnValue('messages').append({'role' : 'assistant', 'content' : full_response})
+                    if returnValue('streaming_enabled'):
+                        message_placeholder = st.empty()
+                        streaming_response = ""
+                        # Simulate stream of response with milliseconds delay
+                        for chunk in full_response.split():
+                            streaming_response += chunk + " "
+                            time.sleep(0.05)
+                            # Add a blinking cursor to simulate typing
+                            message_placeholder.markdown(streaming_response + "▌", unsafe_allow_html=True)
+                        message_placeholder.markdown(full_response, unsafe_allow_html=True)
+                    else:
+                        st.markdown(full_response)
+            st.button('Reset Chat 🗑️', use_container_width=True, on_click=resetChat)

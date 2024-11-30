@@ -23,6 +23,8 @@ default_settings = {
     'system_message' : DEFAULT_SYSTEM_MESSAGE,
     'selected_model' : 'Undefined',
     'llm_server' : "127.0.0.1",
+    'llm_server_port' : 11434,
+    'llm_server_connection_status' : 'False',
     'http' : False,
     'https' : False,
     'snmp' : False,
