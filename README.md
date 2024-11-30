@@ -6,17 +6,25 @@
 
 [![Downloads](https://static.pepy.tech/badge/lpw)](https://pepy.tech/project/lpw) [![Downloads](https://static.pepy.tech/badge/lpw/month)](https://pepy.tech/project/lpw)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14251995.svg)](https://doi.org/10.5281/zenodo.14251995)
+
+If you are using this project as part of your research, kindly consider citing this project as follow:
+
+```
+[1]V. Kumar, “Local Packet Whisperer (LPW)”. Zenodo, Nov. 30, 2024. doi: 10.5281/zenodo.14251995.
+```
+
 ## Features & Background
 
 1) 100% local, private PCAP assistant powered by range of local LLMs at your control, powered by Ollama
-2) Purely based on promp engg without any fancy libraries & dependencies. 100% vanilla
+2) Purely based on prompt engg without any fancy libraries & dependencies. 100% vanilla
 3) Uses streamlit for the FE and pyshark for the pcap parsing needs
 4) Available as a pip installable package. So just *pip it away!* 😎
-5) As of **v0.2.3**, you can also connect LPW to a Ollama server running over a network.
+5) You can also connect LPW to a Ollama server running over a network.
 
 ![](gifs/lpw_latest_cover.png)
 
-Refer [Release History](https://github.com/kspviswa/local-packet-whisperer/releases) for more details info on what each release contains.
+### Refer [Release History](https://github.com/kspviswa/local-packet-whisperer/releases) for more details info on what each release contains.
 
 ## Requirements
 
