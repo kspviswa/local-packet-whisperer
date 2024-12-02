@@ -70,6 +70,56 @@ def resetChat():
     returnValue('messages').clear()
     clearHistory()
 
+def show_beta_ribbon():
+    st.markdown("""
+        <style>
+            .ribbon {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 150px;
+                height: 22px;
+                margin-right: -50px;
+                transform: rotate(45deg);
+                background-color: #ff4b4b;
+                color: white;
+                text-align: center;
+                font-weight: bold;
+                font-size: 0.8em;
+                line-height: 22px;
+                z-index: 999;
+            }
+        </style>
+        <div class="ribbon">Experimental BETA</div>
+    """, unsafe_allow_html=True)
+
+def glowing_header_text(header, text):
+    st.markdown(f"""
+        <div style="display: flex; align-items: center;">
+            <h1> {header} </h1>
+            <span style="
+                background-color: #4CAF50;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.8em;
+                box-shadow: 0 0 10px #4CAF50;
+                animation: glow 1.5s ease-in-out infinite alternate;">
+                {text}
+            </span>
+        </div>
+        <style>
+            @keyframes glow {{
+                from {{
+                    box-shadow: 0 0 5px #4CAF50;
+                }}
+                to {{
+                    box-shadow: 0 0 20px #4CAF50;
+                }}
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
 def getEnabledFilters():
     filters = []
     if returnValue('http'):
@@ -167,7 +217,9 @@ else :
                             st.markdown(full_response)
                 st.button('Reset Chat 🗑️', use_container_width=True, on_click=resetChat)
     with insights:
-        st.header('Packet Capture Insights by LPW')
+        show_beta_ribbon()
+        glowing_header_text('Agentic Insights', 'Available for 5G NGAP only')
+        st.markdown('`Get a comprehensive report on PCAPs. Powered by LPW Agents!`')
         if st.session_state['pcap_fname'] == "None 🚫":
             st.markdown('#### Waiting for packets 🧘🏻🧘🏻🧘🏻🧘🏻')
             st.session_state['insights_done'] = False
