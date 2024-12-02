@@ -13,16 +13,17 @@ def remove_ansi_escape_sequences(input_string):
     
     return cleaned_string
 
+@st.cache_data
 def getPcapData(input_file:str = "", filter="", decode_info={}):
     try :
         if os.name == 'nt':
             eventloop = asyncio.ProactorEventLoop()
             asyncio.set_event_loop(eventloop)        
         cap : ps.FileCapture = ps.FileCapture(input_file=input_file, display_filter=filter)
-        with open('out.txt', 'w') as f:
+        with open('temp/out.txt', 'w') as f:
             for pkt in cap:
                 print(pkt, file=f)
-        out_string = open('out.txt', 'r').read()
+        out_string = open('temp/out.txt', 'r').read()
         #os.remove('out.txt')
     except ps.tshark.tshark.TSharkNotFoundException:
         st.error(body='TShark/Wireshark is not installed. \n Please install [wireshark](https://tshark.dev/setup/install/#install-wireshark-with-a-package-manager) first', icon='🚨')

@@ -32,7 +32,11 @@ default_settings = {
     'ngap' : False,
     'ssh' : False,
     'ntp' : False,
-    'pcap_fname' : "None 🚫"
+    'pcap_fname' : "None 🚫",
+    'pcap_data' : "",
+    'pcap_filters' : "",
+    'insights_done' : False,
+    'insights_file_done' : False
 }
 
 def returnValue(key):

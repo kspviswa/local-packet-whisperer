@@ -18,7 +18,10 @@ def setLLMServer(server, port):
     oClient.setServer(server, port)
 
 def initLLM(pcap_data) -> None:
-    oClient.set_system_message(system_message=returnSystemText(pcap_data)) 
+    oClient.set_system_message(system_message=returnSystemText(pcap_data))
+
+def exitLLM() -> None:
+    oClient.set_system_message(system_message=returnValue('system_message'))
 
 def getModelList() -> List[str]:
     return oClient.getModelList()
