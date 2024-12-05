@@ -21,7 +21,7 @@ setup(
     author="Viswa Kumar",
     author_email="kspviswaphd@gmail.com",
     license="MIT",
-    scripts=['bin/lpw', 'bin/lpw_main.py', 'bin/lpw_ollamaClient.py', 'bin/lpw_packet.py', 'bin/lpw_prompt.py', 'bin/lpw_settings.py', 'bin/lpw_home.py', 'bin/lpw_init.py'],
+    scripts=['bin/lpw', 'bin/lpw_main.py', 'bin/lpw_ollamaClient.py', 'bin/lpw_packet.py', 'bin/lpw_prompt.py', 'bin/lpw_settings.py', 'bin/lpw_home.py', 'bin/lpw_init.py', 'bin/lpw_agent.py'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
@@ -29,6 +29,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires = deps,
+    #package_data={'lpw': ['temp/*', 'config/*']},
     include_package_data=True,
     python_requires=">=3.11",
 )   

@@ -11,12 +11,19 @@ STOPPING_INS = f"""
                     Or
         2) Use a seperate terminal and type `lpw stop`
 """
+current_script_path = os.path.abspath(__file__)
+current_script_dir = os.path.dirname(current_script_path)
+#print(f'current_script_path : {current_script_path}, current_script_dir : {current_script_dir}')
+usr_home_dir = os.path.expanduser("~")
+lpw_home_dir = os.path.join(usr_home_dir, '.lpw')
+if not os.path.exists(lpw_home_dir):
+    os.makedirs(lpw_home_dir)
 
 def stop_lpw():
-    if os.path.exists(f'{home_dir}/.lpw'):
-        pid = int(open(f'{home_dir}/.lpw', 'r').read())
+    if os.path.exists(f'{lpw_home_dir}/.lpw'):
+        pid = int(open(f'{lpw_home_dir}/.lpw', 'r').read())
         os.kill(pid, signal.SIGINT)
-        os.remove(f'{home_dir}/.lpw')
+        os.remove(f'{lpw_home_dir}/.lpw')
     else:
         print(f'lpw does not seems to be running')
 
@@ -25,11 +32,6 @@ def signint_handler(sig, frame):
     print('Stopping LPW.... Please wait')
     stop_lpw()
     print('Stopped...')
-
-current_script_path = os.path.abspath(__file__)
-current_script_dir = os.path.dirname(current_script_path)
-#print(f'current_script_path : {current_script_path}, current_script_dir : {current_script_dir}')
-home_dir = os.path.expanduser("~")
 
 cmd = ['streamlit', 'run', f'{current_script_dir}/lpw_main.py']
 
@@ -40,7 +42,7 @@ signal.signal(signal.SIGINT, signint_handler)
 
 if args.action == 'start':
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    with open(f'{home_dir}/.lpw', 'w') as f:
+    with open(f'{lpw_home_dir}/.lpw', 'w') as f:
         f.write(str(process.pid))
     print('LPW Started.. browse http://localhost:8501 and start whispering to LPW')
     print('Instructions for stopping LPW :')

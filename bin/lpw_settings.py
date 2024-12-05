@@ -32,5 +32,37 @@ with col2:
 with col3:
     st.session_state['ngap'] = st.checkbox("NGAP",value=returnValue('ngap')) #38412
 
+def glowing_header_text(header, text):
+    st.markdown(f"""
+        <div style="display: flex; align-items: center;">
+            <h1> {header} </h1>
+            <span style="
+                background-color: #4CAF50;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.8em;
+                box-shadow: 0 0 10px #4CAF50;
+                animation: glow 1.5s ease-in-out infinite alternate;">
+                {text}
+            </span>
+        </div>
+        <style>
+            @keyframes glow {{
+                from {{
+                    box-shadow: 0 0 5px #4CAF50;
+                }}
+                to {{
+                    box-shadow: 0 0 20px #4CAF50;
+                }}
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+with st.expander(label="**NGAP Agent Settings** ⚠️Experimental⚠️", expanded=False, icon=":material/robot_2:"):
+    glowing_header_text('Config YAML', 'Available for 5G NGAP only')
+    st.markdown('Refer [here](https://github.com/kspviswa/local-packet-whisperer/blob/main/config/5g_agent.yaml) for more details to how to create this file.')
+    st.session_state['agent_config_file'] = st.file_uploader(label='Agent Config YAML', type='yaml', label_visibility="hidden")
+
 def loadDefaultSettings():
     st.session_state['selected_model'] = st.selectbox('Models', placeholder="Choose an Option", options=getModelList(),label_visibility='hidden')

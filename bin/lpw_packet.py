@@ -3,6 +3,7 @@ import streamlit as st
 import os
 import re
 import asyncio
+from lpw_init import getLpwPath
 
 def remove_ansi_escape_sequences(input_string):
     # Define a regular expression pattern to match ANSI escape sequences
@@ -20,10 +21,11 @@ def getPcapData(input_file:str = "", filter="", decode_info={}):
             eventloop = asyncio.ProactorEventLoop()
             asyncio.set_event_loop(eventloop)        
         cap : ps.FileCapture = ps.FileCapture(input_file=input_file, display_filter=filter)
-        with open('temp/out.txt', 'w') as f:
+        outfile_path = os.path.join(getLpwPath('temp'), 'out.txt')
+        with open(outfile_path, 'w') as f:
             for pkt in cap:
                 print(pkt, file=f)
-        out_string = open('temp/out.txt', 'r').read()
+        out_string = open(outfile_path, 'r').read()
         #os.remove('out.txt')
     except ps.tshark.tshark.TSharkNotFoundException:
         st.error(body='TShark/Wireshark is not installed. \n Please install [wireshark](https://tshark.dev/setup/install/#install-wireshark-with-a-package-manager) first', icon='🚨')

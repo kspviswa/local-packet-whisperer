@@ -156,7 +156,7 @@ with st.sidebar:
                 f.write(packetFile.read())
             filters, decodes = getFiltersAndDecodeInfo()
             st.session_state['pcap_filters'] = filters
-            print(f'#### {st.session_state['pcap_filters']}')
+            # print(f'#### {st.session_state['pcap_filters']}')
             st.session_state['pcap_data'] = getPcapData(input_file=f'{packetFile.name}', filter=filters, decode_info=decodes)
             initLLM(pcap_data=returnValue('pcap_data'))
             #os.remove(f'{packetFile.name}')
@@ -233,14 +233,16 @@ else :
             else:
                 if not returnValue('insights_file_done'):
                     with st.spinner('#### Generating Insights 🪄🪄🪄'):
-                        LPWCrew(llm_host=returnValue('llm_server'),
+                        st.session_state['insights_raw'] = LPWCrew(llm_host=returnValue('llm_server'),
                                 llm_port=returnValue('llm_server_port'),
                                 model=returnValue('selected_model')).kickoff(returnValue('pcap_data'), returnValue('pcap_filters'))
                         st.session_state['insights_file_done'] = True
                         st.rerun()
                 else:
-                    st.markdown(open('temp/insights.md').read())
+                    #markdown_path = os.path.join(getLpwPath('temp'), 'insights.md')
+                    #st.markdown(open(markdown_path).read())
+                    st.markdown(returnValue('insights_raw'))
                     st.download_button(label='Download Insights markdown',
-                                        data = open('temp/insights.md').read(),
+                                        data = returnValue('insights_raw'),
                                         type='primary',
                                         use_container_width=True)

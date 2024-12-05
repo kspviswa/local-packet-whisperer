@@ -75,8 +75,9 @@ class OllamaClient():
         try:
             model_list = self.client.list()  
             models = model_list['models']
+            #print(f'#### models {models}')
             for model in models:
-                retList.append(model['name'])
+                retList.append(model['model'])
             is_Connected = True
         except Exception as e:
             print(f'Error Occured : {e} ')
