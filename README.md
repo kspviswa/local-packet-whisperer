@@ -28,7 +28,7 @@ If you are using this project as part of your research, kindly consider citing t
 
 
 ## Stay Updated!
-📬 [Subscribe to my Substack](https://viswakumar.substack.com) to get notified about new releases
+📬 [Subscribe to my Substack](https://viswakumar.substack.com/t/lpw) to get notified about new releases
 
 ## Requirements
 
