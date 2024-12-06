@@ -26,9 +26,9 @@ If you are using this project as part of your research, kindly consider citing t
 
 ### Refer [Release History](https://github.com/kspviswa/local-packet-whisperer/releases) for more details info on what each release contains.
 
-Subscribe to my newsletter to get notified about new releases
 
-<iframe src="https://viswakumar.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+## Stay Updated!
+📬 [Subscribe to my Substack](https://viswakumar.substack.com) to get notified about new releases
 
 ## Requirements
 
