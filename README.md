@@ -26,6 +26,9 @@ If you are using this project as part of your research, kindly consider citing t
 
 ### Refer [Release History](https://github.com/kspviswa/local-packet-whisperer/releases) for more details info on what each release contains.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kspviswa/local-packet-whisperer&type=Timeline)](https://star-history.com/#kspviswa/local-packet-whisperer&Timeline)
 
 ## Stay Updated!
 📬 [Subscribe to my Substack](https://viswakumar.substack.com/t/lpw) to get notified about new releases
