@@ -28,9 +28,15 @@ class OllamaClient():
             return False
     
     def set_system_message(self, system_message:str) -> None:
+        if self.check_system_message():
+            self.edit_system_message(system_message)
+        else:
+            self.create_system_message(system_message)
+    
+    def create_system_message(self, system_message:str) -> None:
         sMessage = dict({'role' : 'system', 'content' : system_message})
         self.messages.append(sMessage)
-    
+
     def edit_system_message(self, system_message:str) -> None:
         for m in self.messages:
             if m['role'] == 'system':
