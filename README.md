@@ -76,6 +76,7 @@ Refer [User Guide](https://github.com/kspviswa/local-packet-whisperer/wiki/User-
 1) Clone this repo and install requirements
 ```
 git clone https://github.com/kspviswa/local-packet-whisperer.git
+cd local-packet-whisperer
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
