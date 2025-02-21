@@ -13,6 +13,7 @@ DEFAULT_SYSTEM_MESSAGE = """
         http means tcp.port = 80
         https means tcp.port = 443
         snmp means udp.port = 161 or udp.port = 162
+        sip means sip
         ntp means udp.port = 123
         ftp means tcp.port = 21
         ssh means tcp.port = 22
@@ -64,6 +65,7 @@ default_settings = {
     'ftp' : False,
     'ngap' : False,
     'ssh' : False,
+    'sip' : False,
     'ntp' : False,
     'pcap_fname' : "None 🚫",
     'pcap_data' : "",

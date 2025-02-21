@@ -30,6 +30,7 @@ with col2:
     st.session_state['ftp'] = st.checkbox("FTP",value=returnValue('ftp')) #21
     st.session_state['ssh'] = st.checkbox("SSH",value=returnValue('ssh')) #22
 with col3:
+    st.session_state['sip'] = st.checkbox("SIP",value=returnValue('sip')) #5060
     st.session_state['ngap'] = st.checkbox("NGAP",value=returnValue('ngap')) #38412
 
 def glowing_header_text(header, text):
