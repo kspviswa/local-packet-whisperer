@@ -145,7 +145,7 @@ with st.sidebar:
     if returnValue('selected_model') == 'Undefined':
         loadDefaultSettings()
     st.metric("Selected Model ✅", returnValue('selected_model'))
-    st.metric("Plugged to 🔌 & connection status 🚦", f'{returnValue('llm_server')} {renderConnection(returnValue('llm_server_connection_status'))}')
+    st.metric("Plugged to 🔌 & connection status 🚦", f"{returnValue('llm_server')} {renderConnection(returnValue('llm_server_connection_status'))}")
     getEnabledFilters()
     st.metric("Streaming 〰️", returnValue('streaming_enabled'))
     packetFile = st.file_uploader(label='Upload either a PCAP or PCAPNG file to chat', accept_multiple_files=False, type=['pcap','pcapng'])
