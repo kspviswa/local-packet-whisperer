@@ -29,7 +29,7 @@ class LPWCrew:
             llm=self.llm,
             #verbose=True
         )
-        print(f'##### {getLpwPath('temp')}/insights.md')
+        print(f"##### {getLpwPath('temp')}/insights.md")
         self.caTask = Task(
             description=agent_data['tasks'][0]['description'],
             expected_output=agent_data['tasks'][0]['expected_output'],
