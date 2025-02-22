@@ -41,6 +41,10 @@ def getFiltersAndDecodeInfo():
         filters.append("udp.port == 161 || udp.port == 162")
         decodes['udp.port == 161'] = 'snmp'
         decodes['udp.port == 162'] = 'snmp'
+    if returnValue('sip'):
+        filters.append("udp.port == 5060 || tcp.port == 5060")
+        decodes['udp.port == 5060'] = 'sip'
+        decodes['tcp.port == 5060'] = 'sip'
     if returnValue('https'):
         filters.append("tcp.port == 443")
         decodes['tcp.port == 443'] = 'https'
@@ -126,6 +130,8 @@ def getEnabledFilters():
         filters.append('http')
     if returnValue('snmp'):
         filters.append('snmp')
+    if returnValue('sip'):
+        filters.append('sip')
     if returnValue('https'):
         filters.append('https')
     if returnValue('ntp'):
