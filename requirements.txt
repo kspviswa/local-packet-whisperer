@@ -251,7 +251,8 @@ tzdata==2024.2
 urllib3==2.2.3
 uv==0.5.5
 uvicorn==0.32.1
-uvloop==0.21.0
+uvloop; sys_platform == "linux"
+winloop; sys_platform == "win32"
 validators==0.34.0
 watchfiles==1.0.0
 wcwidth==0.2.13
