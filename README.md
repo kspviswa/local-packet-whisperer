@@ -1,21 +1,23 @@
 ![](gifs/lpw_logo_small.png)
-
 # Local Packet Whisperer (LPW)
-
 Local Packet Whisperer (LPW) is an innovative project designed to facilitate local and private interactions with PCAP/PCAG NG files using a combination of Ollama, Streamlit, and PyShark. This tool serves as a 100% local assistant powered by customizable local large language models (LLMs), with features including Streamlit for the front end and PyShark for packet parsing, LPW is easily installable via pip, allowing users to seamlessly connect to an Ollama server over a network
+
+> 🚀 **Ready to experience the future of AI-powered packet analysis?** 
+> 
+> Try out **[pktai](https://pktai.com)** - our next-generation cloud platform that brings the power of Local Packet Whisperer to your browser! No installation required, just upload your PCAP files and start analyzing with cutting-edge AI models.
+> 
+> 🌟 **[Get Started with pktai →](https://pktai.com)**
 
 [![Downloads](https://static.pepy.tech/badge/lpw)](https://pepy.tech/project/lpw) [![Downloads](https://static.pepy.tech/badge/lpw/month)](https://pepy.tech/project/lpw)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14251995.svg)](https://doi.org/10.5281/zenodo.14251995)
 
 If you are using this project as part of your research, kindly consider citing this project as follow:
-
 ```
-[1]V. Kumar, “Local Packet Whisperer (LPW)”. Zenodo, Nov. 30, 2024. doi: 10.5281/zenodo.14251995.
+[1]V. Kumar, "Local Packet Whisperer (LPW)". Zenodo, Nov. 30, 2024. doi: 10.5281/zenodo.14251995.
 ```
 
 ## Features
-
 1) 100% local, private PCAP assistant powered by range of local LLMs at your control, powered by Ollama
 2) Uses streamlit for the FE and pyshark for the pcap parsing needs
 3) Available as a pip installable package. So just *pip it away!* 😎
@@ -27,37 +29,31 @@ If you are using this project as part of your research, kindly consider citing t
 ### Refer [Release History](https://github.com/kspviswa/local-packet-whisperer/releases) for more details info on what each release contains.
 
 ## Star History
-
 [![Star History Chart](https://api.star-history.com/svg?repos=kspviswa/local-packet-whisperer&type=Timeline)](https://star-history.com/#kspviswa/local-packet-whisperer&Timeline)
 
 ## Stay Updated!
 📬 [Subscribe to my Substack](https://viswakumar.substack.com/t/lpw) to get notified about new releases
 
 ## Requirements
-
 1) Download & Install [Ollama](https://ollama.ai) by referring to instructions according to your OS [here](https://ollama.com/download)
-
 2) Pull any Chat based LLM models to use with LPW.
 ```
 ollama pull dolphin-mistral:latest
 ```
 3) If not running the desktop application, Start Ollama Server (refer [here](https://github.com/ollama/ollama?tab=readme-ov-file#start-ollama))
-
 4) You also need to install `tshark` executable. You could either install the [Wireshark Application](https://www.wireshark.org/download.html) or simply use `brew install tshark`. 
 
-    <details>
-    <summary>⚠️Warning⚠️ If you don't perform this step, you may see below error</summary>
+<details>
+<summary>⚠️ Warning ⚠️ If you don't perform this step, you may see below error</summary>
 
-    ```
-    TSharkNotFoundException: TShark not found. Try adding its location to the configuration file.
-    ```
-    </details> 
+![image](https://github.com/kspviswa/local-packet-whisperer/assets/7826364/10c7fa0f-7c49-4c3d-9a46-e4ebffdb6aaa)
 
-
+</details>
 
 ## Installation & Usage
 
-1) Install/Upgrade *LPW* using pip
+1) Install/Upgrade LPW using pip
+
 ```
 pip install -U lpw
 ```
@@ -69,23 +65,28 @@ lpw {start or stop}
 lpw -h #for help
 ```
 
-Refer [User Guide](https://github.com/kspviswa/local-packet-whisperer/wiki/User-Guide-(old-releases)) for more details.
+Refer [User Guide](https://github.com/kspviswa/local-packet-whisperer/wiki/User-Guide) for more details.
 
 ## Local Development
 
 1) Clone this repo and install requirements
+
 ```
 git clone https://github.com/kspviswa/local-packet-whisperer.git
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
-2) Run streamlit app & point to `http://localhost:8501`
+
+2) Run streamlit app & point to http://localhost:8501
+
 ```
 streamlit run bin/lpw_main.py
 ```
+
 or simply
-```
+
+```bash
 <lpw dir>/bin/lpw {start or stop}
 ```
 
